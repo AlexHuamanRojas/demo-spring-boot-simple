@@ -5,6 +5,7 @@ import com.ejemplo.demo.service.KnativeConsumerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -50,6 +51,23 @@ public class KnativeConsumerController {
 		knativeConsumerService.ejecutar(payload);
 
 		log.info("====================================");
+
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/api/ext/clientes")
+	public ResponseEntity<Void> recibir3(
+			@RequestBody String payload,
+			@RequestHeader MultiValueMap<String, String> headers) {
+		log.info(">>> ENDPOINT API EXT <<<");
+		log.info("========== EVENTO RECIBIDO ==========");
+
+		headers.forEach((key, value) ->
+				log.info("{} = {}", key, value));
+
+		log.info("PAYLOAD: {}", payload);
+
+		log.info("Evento procesado correctamente");
 
 		return ResponseEntity.ok().build();
 	}
